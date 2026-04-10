@@ -1,7 +1,7 @@
-package com.example.registrationservice.service;
+package com.example.registration_service.service;
 
-import com.example.registrationservice.model.Registration;
-import com.example.registrationservice.repository.RegistrationRepository;
+import com.example.registration_service.model.Registration;
+import com.example.registration_service.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 

@@ -1,5 +1,6 @@
 package com.example.registration_service.controller;
 
+
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.service.RegistrationService;
 import org.springframework.web.bind.annotation.*;

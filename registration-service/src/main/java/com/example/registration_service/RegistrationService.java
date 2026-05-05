@@ -1,4 +1,4 @@
-package com.example.registration_service.service;
+package com.example.registration_service;
 
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.repository.RegistrationRepository;

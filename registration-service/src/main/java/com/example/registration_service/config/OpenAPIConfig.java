@@ -15,9 +15,9 @@ public class OpenAPIConfig {
         return new OpenAPI()
                 // INFO API
                 .info(new Info()
-                        .title("User Service API")
+                        .title("Registration Service API")
                         .version("1.0")
-                        .description("API de gestion des utilisateurs"))
+                        .description("API de gestion des inscriptions"))
 
                 // JWT SECURITY
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))

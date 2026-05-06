@@ -1,6 +1,5 @@
 package com.example.registration_service.controller;
 
-
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.service.RegistrationService;
 import org.springframework.web.bind.annotation.*;
@@ -26,5 +25,10 @@ public class RegistrationController {
     @GetMapping
     public List<Registration> getAll() {
         return service.getAll();
+    }
+
+    @GetMapping("/event/{eventId}")
+    public List<Registration> getByEventId(@PathVariable Long eventId) {
+        return service.getByEventId(eventId);
     }
 }

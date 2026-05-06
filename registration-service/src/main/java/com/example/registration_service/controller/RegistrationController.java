@@ -1,5 +1,6 @@
 package com.example.registration_service.controller;
 
+import com.example.registration_service.dto.RegistrationDTO;
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.service.RegistrationService;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,9 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public Registration register(@RequestParam Long userId,
-                                 @RequestParam Long eventId) {
-        return service.register(userId, eventId);
-    }
+    public Registration register(@RequestBody RegistrationDTO dto) {
+    return service.register(dto.getUserId(), dto.getEventId());
+   }
 
     @GetMapping
     public List<Registration> getAll() {

@@ -1,4 +1,4 @@
-package com.example.registrationservice.model;
+package com.example.registration_service.model;
 
 import jakarta.persistence.*;
 

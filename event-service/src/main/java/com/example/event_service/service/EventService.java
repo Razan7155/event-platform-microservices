@@ -4,7 +4,7 @@ package com.example.event_service.service;
 import com.example.event_service.model.Event;
 import com.example.event_service.repository.EventRepository;
 import org.springframework.stereotype.Service;
-
+import com.example.event_service.exception.ResourceNotFoundException;
 import java.util.List;
 
 @Service
@@ -28,7 +28,16 @@ public class EventService {
         return repo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
     }
+     
+    public Event update(Long id, Event newEvent) {
 
+    Event existingEvent = getById(id); // vérifie si existe
+
+    existingEvent.setTitle(newEvent.getTitle());
+    existingEvent.setLocation(newEvent.getLocation());
+
+    return repo.save(existingEvent);
+    }
     public void delete(Long id) {
         repo.deleteById(id);
     }

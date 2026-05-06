@@ -1,7 +1,7 @@
-package com.example.registrationservice.service;
+package com.example.registration_service.service;
 
-import com.example.registrationservice.model.Registration;
-import com.example.registrationservice.repository.RegistrationRepository;
+import com.example.registration_service.model.Registration;
+import com.example.registration_service.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,10 +17,28 @@ public class RegistrationService {
         this.repo = repo;
     }
 
+    
+    private Object getUser(Long userId) {
+        return restTemplate.getForObject(
+                "http://localhost:8081/users/" + userId,
+                Object.class
+        );
+    }
+
+    private Object getEvent(Long eventId) {
+        return restTemplate.getForObject(
+                "http://localhost:8082/events/" + eventId,
+                Object.class
+        );
+    }
+
     public Registration register(Long userId, Long eventId) {
 
-        restTemplate.getForObject("http://localhost:8081/users/" + userId, Object.class);
-        restTemplate.getForObject("http://localhost:8082/events/" + eventId, Object.class);
+        // vérifier user existe
+        getUser(userId);
+
+        // vérifier event existe
+        getEvent(eventId);
 
         Registration r = new Registration();
         r.setUserId(userId);
@@ -32,4 +50,12 @@ public class RegistrationService {
     public List<Registration> getAll() {
         return repo.findAll();
     }
+
+    public List<Registration> getByEventId(Long eventId) {
+        return repo.findAll()
+                .stream()
+                .filter(r -> r.getEventId().equals(eventId))
+                .toList();
+    }
 }
+

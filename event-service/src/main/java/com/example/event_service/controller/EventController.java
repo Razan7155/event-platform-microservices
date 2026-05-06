@@ -3,8 +3,8 @@ package com.example.event_service.controller;
 import com.example.event_service.dto.EventDTO;
 import com.example.event_service.model.Event;
 import com.example.event_service.service.EventService;
-import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,10 +20,7 @@ public class EventController {
 
     @PostMapping
     public Event create(@Valid @RequestBody EventDTO dto) {
-        Event e = new Event();
-        e.setTitle(dto.title);
-        e.setLocation(dto.location);
-        return service.create(e);
+        return service.create(dto);
     }
 
     @GetMapping
@@ -35,13 +32,13 @@ public class EventController {
     public Event getById(@PathVariable Long id) {
         return service.getById(id);
     }
-    
+
     @PutMapping("/{id}")
     public Event update(@PathVariable Long id,
-                    @RequestBody Event e) {
-        return service.update(id, e);
+                        @Valid @RequestBody EventDTO dto) {
+        return service.update(id, dto);
     }
-    
+
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);

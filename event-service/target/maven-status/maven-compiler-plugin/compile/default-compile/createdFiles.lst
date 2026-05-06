@@ -1,6 +1,0 @@
-com\example\event_service\service\EventService.class
-com\example\event_service\controller\EventController.class
-com\example\event_service\dto\EventDTO.class
-com\example\event_service\EventServiceApplication.class
-com\example\event_service\model\Event.class
-com\example\event_service\repository\EventRepository.class

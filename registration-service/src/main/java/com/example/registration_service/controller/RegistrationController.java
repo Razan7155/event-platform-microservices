@@ -21,10 +21,10 @@ public class RegistrationController {
                                  @RequestParam Long eventId) {
         return service.register(userId, eventId);
     }
-
-    @GetMapping
+    
+   @GetMapping
     public List<Registration> getAll() {
-        return service.getAll();
+    return service.getAll();
     }
 
     @GetMapping("/event/{eventId}")

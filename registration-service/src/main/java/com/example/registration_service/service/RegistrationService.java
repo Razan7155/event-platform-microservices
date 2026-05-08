@@ -1,11 +1,10 @@
 package com.example.registration_service.service;
 
-import com.example.registrationservice.client.EventClient;
-import com.example.registrationservice.client.UserClient;
-import com.example.registrationservice.model.Registration;
-import com.example.registrationservice.repository.RegistrationRepository;
-
+import com.example.registration_service.exception.ResourceNotFoundException;
+import com.example.registration_service.model.Registration;
+import com.example.registration_service.repository.RegistrationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -13,28 +12,45 @@ import java.util.List;
 public class RegistrationService {
 
     private final RegistrationRepository repo;
-    private final UserClient userClient;
-    private final EventClient eventClient;
+    private final RestTemplate restTemplate;
 
-    public RegistrationService(RegistrationRepository repo,
-                               UserClient userClient,
-                               EventClient eventClient) {
-
+    public RegistrationService(RegistrationRepository repo, RestTemplate restTemplate) {
         this.repo = repo;
-        this.userClient = userClient;
-        this.eventClient = eventClient;
+        this.restTemplate = restTemplate;
+    }
+
+    private void checkUserExists(Long userId) {
+        try {
+            restTemplate.getForObject(
+                    "http://localhost:8081/users/" + userId,
+                    Object.class
+            );
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("User not found with id: " + userId);
+        }
+    }
+
+    private void checkEventExists(Long eventId) {
+        try {
+            restTemplate.getForObject(
+                    "http://localhost:8082/events/" + eventId,
+                    Object.class
+            );
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Event not found with id: " + eventId);
+        }
     }
 
     public Registration register(Long userId, Long eventId) {
 
-        // VERIFY USER
-        userClient.getUserById(userId);
+        checkUserExists(userId);
+        checkEventExists(eventId);
 
-        // VERIFY EVENT
-        eventClient.getEventById(eventId);
+        if (alreadyRegistered(userId, eventId)) {
+            throw new RuntimeException("User already registered for this event");
+        }
 
         Registration r = new Registration();
-
         r.setUserId(userId);
         r.setEventId(eventId);
 
@@ -44,4 +60,14 @@ public class RegistrationService {
     public List<Registration> getAll() {
         return repo.findAll();
     }
-}
+
+    public List<Registration> getByEventId(Long eventId) {
+        return repo.findByEventId(eventId);
+    }
+
+    private boolean alreadyRegistered(Long userId, Long eventId) {
+        return repo.findAll().stream()
+                .anyMatch(r -> r.getUserId().equals(userId)
+                        && r.getEventId().equals(eventId));
+    }
+} 

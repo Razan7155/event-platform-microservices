@@ -28,17 +28,8 @@ public class JwtService {
             return true;
 
         } catch (Exception e) {
+
             return false;
         }
-    }
-
-    public String extractEmail(String token) {
-
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
     }
 }

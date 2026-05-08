@@ -29,27 +29,25 @@ public class JwtService {
     }
 
     public String extractEmail(String token) {
-
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
     }
 
     public boolean isValid(String token) {
+    try {
+        Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
 
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(token);
+        return true;
 
-            return true;
-
-        } catch (Exception e) {
-            return false;
-        }
+    } catch (Exception e) {
+        return false;
+    }
     }
 }

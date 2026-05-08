@@ -7,6 +7,7 @@ import com.example.user_service.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository repo;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repo) {
+    public UserService(UserRepository repo, PasswordEncoder passwordEncoder) {
         this.repo = repo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // =========================
@@ -26,6 +29,7 @@ public class UserService {
         User user = new User();
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         User saved = repo.save(user);
 
@@ -67,7 +71,7 @@ public class UserService {
 
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
-
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         User updated = repo.save(user);
 
         return mapToDTO(updated);

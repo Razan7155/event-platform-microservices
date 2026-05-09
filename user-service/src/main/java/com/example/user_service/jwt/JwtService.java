@@ -16,10 +16,11 @@ public class JwtService {
     private final Key key =
             Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String role) {
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(
                         new Date(System.currentTimeMillis()
@@ -50,4 +51,18 @@ public class JwtService {
         return false;
     }
     }
+    public String extractRole(String token) {
+
+    return Jwts.parserBuilder()
+
+            .setSigningKey(key)
+
+            .build()
+
+            .parseClaimsJws(token)
+
+            .getBody()
+
+            .get("role", String.class);
+    } 
 }

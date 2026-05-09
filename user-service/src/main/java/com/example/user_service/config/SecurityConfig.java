@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 public class SecurityConfig {
@@ -49,7 +50,36 @@ public class SecurityConfig {
                     )
 
                     .permitAll()
+                    // ADMIN ONLY
+                    .requestMatchers(
+                         HttpMethod.POST,
+                "/events/**"
+                    )
+                    .hasRole("ADMIN")
 
+                    .requestMatchers(
+                         HttpMethod.PUT,
+                "/events/**"
+                    )
+                    .hasRole("ADMIN")
+
+                    .requestMatchers(
+                        HttpMethod.DELETE,
+                "/events/**"
+                    )
+                    .hasRole("ADMIN")
+
+                    // REGISTRATION USER/ADMIN
+                    .requestMatchers(
+                "/registrations/**"
+                    )
+                    .hasAnyRole("USER", "ADMIN")
+
+                    // USERS ADMIN ONLY
+                    .requestMatchers(
+                "/users/**"
+                   )
+                    .hasRole("ADMIN")
                     .anyRequest().authenticated()
             )
 

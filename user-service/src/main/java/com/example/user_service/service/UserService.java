@@ -30,6 +30,7 @@ public class UserService {
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        user.setRole(dto.getRole());
 
         User saved = repo.save(user);
 
@@ -98,6 +99,7 @@ public class UserService {
                 user.getId(),
                 user.getName(),
                 user.getEmail()
+                ,user.getRole()
         );
     }
 }

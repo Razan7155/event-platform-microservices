@@ -13,17 +13,17 @@ spring:
           predicates:
                - Path=/auth/**
         - id: user-service
-          uri: lb://USER-SERVICE
+          uri: lb://user-service
           predicates:
             - Path=/users/**
 
         - id: event-service
-          uri: lb://EVENT-SERVICE
+          uri: lb://event-service
           predicates:
             - Path=/events/**
 
         - id: registration-service
-          uri: lb://REGISTRATION-SERVICE
+          uri: lb://registration-service
           predicates:
             - Path=/registrations/**
 

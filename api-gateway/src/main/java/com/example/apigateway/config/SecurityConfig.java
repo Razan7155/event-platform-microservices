@@ -28,7 +28,7 @@ public class SecurityConfig {
                         .permitAll()
 
                         .anyExchange()
-                        .authenticated()
+                        .permitAll()
                 );
 
         return http.build();

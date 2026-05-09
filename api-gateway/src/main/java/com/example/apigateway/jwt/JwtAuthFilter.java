@@ -26,6 +26,7 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange,
                              GatewayFilterChain chain) {
+        System.out.println("JWT FILTER EXECUTED");
 
         String path =
                 exchange.getRequest()
@@ -44,6 +45,7 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
                 exchange.getRequest()
                         .getHeaders()
                         .getFirst("Authorization");
+        System.out.println(authHeader);
 
         if (authHeader == null
                 || !authHeader.startsWith("Bearer ")) {

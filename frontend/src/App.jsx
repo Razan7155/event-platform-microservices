@@ -14,6 +14,7 @@ import Users from "./pages/Users";
 import Events from "./pages/Events";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
@@ -49,17 +50,29 @@ function App() {
 
             <Route
               path="/users"
-              element={<Users />}
+              element={
+                <ProtectedRoute>
+                  <Users />
+                </ProtectedRoute>
+              }      
             />
 
             <Route
               path="/events"
-              element={<Events />}
+              element={
+                <ProtectedRoute>
+                  <Events />
+                </ProtectedRoute>
+              }
             />
 
             <Route
               path="/register"
-              element={<Register />}
+              element={
+                <ProtectedRoute>
+                  <Register />
+                </ProtectedRoute>
+              }
             />
 
             <Route

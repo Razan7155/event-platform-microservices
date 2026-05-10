@@ -7,19 +7,29 @@ import {
 } from "@mui/material";
 
 import {
-  Link
+  Link,
+  useNavigate
 } from "react-router-dom";
 
+import {
+  useAuth
+} from "../context/AuthContext";
+
+import toast from "react-hot-toast";
+
 function Navbar() {
+
+  const navigate = useNavigate();
+
+  const {
+    token,
+    logout
+  } = useAuth();
 
   const navItems = [
     {
       label: "Dashboard",
       path: "/"
-    },
-    {
-      label: "Login",
-      path: "/login"
     },
     {
       label: "Users",
@@ -34,6 +44,15 @@ function Navbar() {
       path: "/register"
     }
   ];
+
+  const handleLogout = () => {
+
+    logout();
+
+    toast.success("Logged out");
+
+    navigate("/login");
+  };
 
   return (
 
@@ -99,7 +118,6 @@ function Navbar() {
               to={item.path}
 
               sx={{
-
                 color: "white",
 
                 textTransform: "none",
@@ -132,6 +150,42 @@ function Navbar() {
             </Button>
 
           ))}
+
+          {/* LOGIN / LOGOUT */}
+
+          {token ? (
+
+            <Button
+              onClick={handleLogout}
+
+              sx={{
+                color: "white",
+
+                fontWeight: "bold",
+
+                textTransform: "none"
+              }}
+            >
+              Logout
+            </Button>
+
+          ) : (
+
+            <Button
+              component={Link}
+              to="/login"
+
+              sx={{
+                color: "white",
+
+                fontWeight: "bold",
+
+                textTransform: "none"
+              }}
+            >
+              Login
+            </Button>
+          )}
 
         </Box>
 

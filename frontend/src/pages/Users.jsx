@@ -9,8 +9,62 @@ import {
   Stack
 } from "@mui/material";
 
-function Users() {
+import { useEffect, useState } from "react";
 
+import toast from "react-hot-toast";
+
+import API from "../services/api";
+function Users() {
+  const [users, setUsers] =
+    useState([]);
+
+  const [name, setName] =
+   useState("");
+
+  const [email, setEmail] =
+   useState("");
+
+  const [password, setPassword] =
+    useState("");
+  useEffect(() => {
+
+  fetchUsers();
+
+}, []);
+
+const fetchUsers = async () => {
+
+  try {
+
+    const data =
+      await getUsers();
+
+    setUsers(data);
+
+  } catch {
+
+    toast.error("Cannot load users");
+  }
+};
+const handleCreate = async () => {
+
+  try {
+
+    await createUser({
+      name,
+      email,
+      password
+    });
+
+    toast.success("User created");
+
+    fetchUsers();
+
+  } catch {
+
+    toast.error("Error creating user");
+  }
+};
   return (
 
     <Box
@@ -79,25 +133,65 @@ function Users() {
             </Typography>
 
             <Stack spacing={4}>
-
+ 
               <TextField
                 fullWidth
                 label="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 sx={inputStyle}
               />
 
               <TextField
                 fullWidth
                 label="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                sx={inputStyle}
+              />
+
+              <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 sx={inputStyle}
               />
 
               <Button
                 variant="contained"
                 sx={buttonStyle}
+                onClick={handleCreate}
               >
                 Add User
               </Button>
+            <Box mt={5}>
+
+              {users.map((user) => (
+
+               <Box
+                key={user.id}
+                sx={{
+                  mb: 2,
+                  p: 2,
+                  borderRadius: 3,
+                  background:
+                    "rgba(255,255,255,0.05)"
+                }}
+              >
+
+                <Typography color="white">
+                  {user.name}
+                </Typography>
+
+                <Typography color="#94a3b8">
+                  {user.email}
+                </Typography>
+
+            </Box>
+      ))}
+      </Box>
 
             </Stack>
 

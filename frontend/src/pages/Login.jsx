@@ -9,10 +9,57 @@ import {
   Stack
 } from "@mui/material";
 
+
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-function Login() {
+import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
+import toast from "react-hot-toast";
+import { loginUser }
+  from "../services/authService";
+import {
+  useAuth
+} from "../context/AuthContext";
+import API from "../services/api";
+
+function Login() {
+  const [email, setEmail] = useState("");
+
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const handleLogin = async () => {
+
+  try {
+
+    setLoading(true);
+
+    const response =
+      await loginUser({
+        email,
+        password
+      });
+
+    login(response.token);
+
+    toast.success("Login successful");
+
+    navigate("/");
+
+  } catch (error) {
+
+    toast.error("Invalid credentials");
+
+  } finally {
+
+    setLoading(false);
+  }
+};
   return (
 
     <Box
@@ -176,6 +223,10 @@ function Login() {
                 size="small"
                 label="Email"
                 type="email"
+                value={email}
+                onChange={(e) =>
+                    setEmail(e.target.value)
+                }
                 sx={inputStyle}
               />
 
@@ -184,16 +235,21 @@ function Login() {
                 size="small"
                 label="Password"
                 type="password"
+                value={password}
+                onChange={(e) =>
+                    setPassword(e.target.value)
+                }
                 sx={inputStyle}
               />
 
               <Button
                 variant="contained"
                 sx={buttonStyle}
+                onClick={handleLogin}
+                disabled={loading}
               >
-                Sign In
+                {loading ? "Loading..." : "Sign In"}
               </Button>
-
             </Stack>
 
           </CardContent>

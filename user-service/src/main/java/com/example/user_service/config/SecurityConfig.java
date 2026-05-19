@@ -41,15 +41,14 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
 
                     .requestMatchers(
-                            "/auth/**",
-                            "/users/**",
-                            "/v3/api-docs/**",
-                            "/swagger-ui/**",
-                            "/swagger-ui.html",
-                            "/h2-console/**"
-                    )
+                "/auth/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/h2-console/**"
+                    ).permitAll()
 
-                    .permitAll()
+                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     // ADMIN ONLY
                     .requestMatchers(
                          HttpMethod.POST,
@@ -81,6 +80,7 @@ public class SecurityConfig {
                    )
                     .hasRole("ADMIN")
                     .anyRequest().authenticated()
+                   
             )
 
             // JWT FILTER

@@ -46,7 +46,7 @@ function Login() {
       });
 
     login(response.token);
-
+    console.log(response);
     toast.success("Login successful");
 
     navigate("/");

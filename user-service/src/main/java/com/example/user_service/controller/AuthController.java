@@ -26,6 +26,7 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
+    // LOGIN
     @PostMapping("/login")
     public LoginResponse login(
             @RequestBody LoginRequest request) {
@@ -45,10 +46,25 @@ public class AuthController {
 
         String token =
                 jwtService.generateToken(
-                user.getEmail(),
-                user.getRole()
-        );
+                        user.getEmail(),
+                        user.getRole()
+                );
 
         return new LoginResponse(token);
+    }
+
+    // REGISTER
+    @PostMapping("/register")
+    public User register(
+            @RequestBody User user
+    ) {
+
+        user.setPassword(
+                passwordEncoder.encode(
+                        user.getPassword()
+                )
+        );
+
+        return repo.save(user);
     }
 }

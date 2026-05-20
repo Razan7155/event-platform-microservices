@@ -19,6 +19,19 @@ spring:
           uri: http://localhost:8083
           predicates:
             - Path=/registrations/**
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:5173"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
 eureka:
   client:
     service-url:

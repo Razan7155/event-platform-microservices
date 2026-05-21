@@ -14,6 +14,10 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import API from "../services/api";
+import {
+  getUsers,
+  createUser
+} from "../services/userService";
 function Users() {
   const [users, setUsers] =
     useState([]);

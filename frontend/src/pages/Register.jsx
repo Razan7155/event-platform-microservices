@@ -8,9 +8,33 @@ import {
   Button,
   Stack
 } from "@mui/material";
+import { useState } from "react";
 
+import toast from "react-hot-toast";
+
+import {
+  createRegistration
+} from "../services/registrationService";
 function Register() {
+  const [userId, setUserId] = useState("");
 
+  const [eventId, setEventId] = useState(""); 
+  const handleRegister = async () => {
+
+  try {
+
+    await createRegistration({
+      userId,
+      eventId
+    });
+
+    toast.success("Registration created");
+
+  } catch {
+
+    toast.error("Registration failed");
+  }
+};
   return (
 
     <Box
@@ -84,18 +108,24 @@ function Register() {
                 fullWidth
                 label="User ID"
                 sx={inputStyle}
+                value={userId}
+                onChange={(e) => setUserId(e.target.value)}
               />
 
               <TextField
                 fullWidth
                 label="Event ID"
                 sx={inputStyle}
+                value={eventId}
+                onChange={(e) => setEventId(e.target.value)}
               />
 
               <Button
                 variant="contained"
                 sx={buttonStyle}
+                onClick={handleRegister}
               >
+              
                 Register User
               </Button>
 

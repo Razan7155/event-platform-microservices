@@ -8,9 +8,46 @@ import {
   Button,
   Stack
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
+import {
+  getEvents,
+  createEvent
+} from "../services/eventService";
 function Events() {
+  const [events, setEvents] = useState([]);
 
+  const [title, setTitle] = useState("");
+
+  const [location, setLocation] = useState("");
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const data = await getEvents();
+      setEvents(data);
+    } catch {
+      toast.error("Cannot load events");
+    }
+};
+const handleCreate = async () => {
+  try {
+    await createEvent({
+      title,
+      location
+    });
+
+    toast.success("Event created");
+
+    fetchEvents();
+
+  } catch {
+    toast.error("Error creating event");
+  }
+};
   return (
 
     <Box
@@ -130,24 +167,55 @@ function Events() {
             <Stack spacing={4}>
 
               <TextField
-                fullWidth
-                label="Event Title"
-                sx={inputStyle}
+                 fullWidth
+                 label="Event Title"
+                 value={title}
+                 onChange={(e) => setTitle(e.target.value)}
+                 sx={inputStyle}
               />
 
               <TextField
-                fullWidth
-                label="Location"
-                sx={inputStyle}
+                 fullWidth
+                 label="Location"
+                 value={location}
+                 onChange={(e) => setLocation(e.target.value)}
+                 sx={inputStyle}
               />
 
               <Button
                 variant="contained"
                 sx={buttonStyle}
+                onClick={handleCreate}
               >
                 Add Event
               </Button>
+              <Box mt={5}>
 
+                {events.map((event) => (
+
+                <Box
+                 key={event.id}
+                 sx={{
+                 mb: 2,
+                 p: 2,
+                 borderRadius: 3,
+                 background: "rgba(255,255,255,0.05)"
+                }}
+                >
+
+                <Typography color="white">
+                  {event.title}
+                </Typography>
+
+                <Typography color="#94a3b8">
+                  {event.location}
+                </Typography>
+
+                </Box>
+
+            ))}
+
+           </Box>
             </Stack>
 
           </CardContent>

@@ -14,5 +14,5 @@ export const createEvent =
     const response =
       await API.post("/events", data);
 
-    return response.data;
+      return response.data;
 };

@@ -22,7 +22,7 @@ import { loginUser }
 import {
   useAuth
 } from "../context/AuthContext";
-import API from "../services/api";
+
 
 function Login() {
   const [email, setEmail] = useState("");

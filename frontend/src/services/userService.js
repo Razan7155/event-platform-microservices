@@ -2,17 +2,30 @@ import API from "./api";
 
 export const getUsers = async () => {
 
-  const response =
-    await API.get("/users");
+  const token = localStorage.getItem("token");
 
-    return response.data;
+  const response = await API.get("/users", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  return response.data;
 };
 
-export const createUser =
-  async (data) => {
+export const createUser = async (data) => {
 
-    const response =
-      await API.post("/users", data);
+  const token = localStorage.getItem("token");
+   
+  const response = await API.post(
+    "/users",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
 
-    return response.data;
+  return response.data;
 };

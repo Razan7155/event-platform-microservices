@@ -48,7 +48,7 @@ public class SecurityConfig {
             )
 
             .authorizeHttpRequests(auth -> auth
-
+                    .requestMatchers("/test").permitAll()
                     .requestMatchers(
                             HttpMethod.GET,
                             EVENTS

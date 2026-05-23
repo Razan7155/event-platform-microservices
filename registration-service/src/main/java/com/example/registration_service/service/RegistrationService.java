@@ -2,6 +2,7 @@ package com.example.registration_service.service;
 
 import com.example.registration_service.client.EventClient;
 import com.example.registration_service.client.UserClient;
+import com.example.registration_service.dto.RegistrationDTO;
 import com.example.registration_service.exception.ResourceNotFoundException;
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.repository.RegistrationRepository;
@@ -68,4 +69,31 @@ public class RegistrationService {
                         r.getUserId().equals(userId)
                                 && r.getEventId().equals(eventId));
     }
+    public Registration update(
+        Long id,
+        RegistrationDTO dto) {
+
+    Registration registration =
+            repo.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Registration not found"));
+
+    registration.setUserId(dto.getUserId());
+    registration.setEventId(dto.getEventId());
+
+    return repo.save(registration);
+}
+
+public void delete(Long id) {
+
+    Registration registration =
+            repo.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Registration not found"));
+
+    repo.delete(registration);
+}
+    
 }

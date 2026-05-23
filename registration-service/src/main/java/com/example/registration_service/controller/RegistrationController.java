@@ -31,4 +31,17 @@ public class RegistrationController {
     public List<Registration> getByEventId(@PathVariable Long eventId) {
         return service.getByEventId(eventId);
     }
+    @PutMapping("/{id}")
+    public Registration update(
+        @PathVariable Long id,
+        @RequestBody RegistrationDTO dto) {
+
+    return service.update(id, dto);
+}
+
+   @DeleteMapping("/{id}")
+   public void delete(@PathVariable Long id) {
+
+    service.delete(id);
+}
 }

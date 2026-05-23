@@ -1,5 +1,4 @@
 import {
-  BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
@@ -20,75 +19,71 @@ function App() {
 
   return (
 
-    <Router>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        background:
+          "linear-gradient(135deg,#020617,#0a1633)"
+      }}
+    >
+
+      <Navbar />
 
       <Box
         sx={{
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          background:
-            "linear-gradient(135deg,#020617,#0a1633)"
+          flex: 1,
+          pt: "90px"
         }}
       >
 
-        <Navbar />
+        <Routes>
 
-        <Box
-          sx={{
-            flex: 1,
-            pt: "90px"
-          }}
-        >
+          <Route
+            path="/"
+            element={<Dashboard />}
+          />
 
-          <Routes>
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <Users />
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/"
-              element={<Dashboard />}
-            />
+          <Route
+            path="/events"
+            element={
+              <ProtectedRoute>
+                <Events />
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/users"
-              element={
-                <ProtectedRoute>
-                  <Users />
-                </ProtectedRoute>
-              }      
-            />
+          <Route
+            path="/register"
+            element={
+              <ProtectedRoute>
+                <Register />
+              </ProtectedRoute>
+            }
+          />
 
-            <Route
-              path="/events"
-              element={
-                <ProtectedRoute>
-                  <Events />
-                </ProtectedRoute>
-              }
-            />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
 
-            <Route
-              path="/register"
-              element={
-                <ProtectedRoute>
-                  <Register />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/login"
-              element={<Login />}
-            />
-
-          </Routes>
-
-        </Box>
-
-        <Footer />
+        </Routes>
 
       </Box>
 
-    </Router>
+      <Footer />
+
+    </Box>
   );
 }
 

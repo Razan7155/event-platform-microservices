@@ -13,7 +13,9 @@ import toast from "react-hot-toast";
 
 import {
   getEvents,
-  createEvent
+  createEvent,
+  deleteEvent,
+  updateEvent
 } from "../services/eventService";
 function Events() {
   const [events, setEvents] = useState([]);
@@ -21,6 +23,7 @@ function Events() {
   const [title, setTitle] = useState("");
 
   const [location, setLocation] = useState("");
+  const [editingId, setEditingId] = useState(null);
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -34,18 +37,92 @@ function Events() {
     }
 };
 const handleCreate = async () => {
-  try {
-    await createEvent({
-      title,
-      location
-    });
 
-    toast.success("Event created");
+  try {
+
+    if (editingId) {
+
+      await updateEvent(editingId, {
+        title,
+        location
+      });
+
+      toast.success("Event updated");
+
+    } else {
+
+      await createEvent({
+        title,
+        location
+      });
+
+      toast.success("Event created");
+    }
+
+    setTitle("");
+    setLocation("");
+    setEditingId(null);
 
     fetchEvents();
 
   } catch {
-    toast.error("Error creating event");
+
+    toast.error("Operation failed");
+  }
+};
+
+const handleDelete = async (id) => {
+
+  const confirmDelete =
+    window.confirm("Delete this event?");
+
+  if (!confirmDelete) return;
+
+  try {
+
+    await deleteEvent(id);
+
+    toast.success("Event deleted");
+
+    fetchEvents();
+
+  } catch {
+
+    toast.error("Delete failed");
+  }
+};
+
+const handleEdit = (event) => {
+
+  setEditingId(event.id);
+
+  setTitle(event.title);
+
+  setLocation(event.location);
+};
+
+const handleUpdate = async () => {
+
+  try {
+
+    await updateEvent(editingId, {
+      title,
+      location
+    });
+
+    toast.success("Event updated");
+
+    setEditingId(null);
+
+    setTitle("");
+
+    setLocation("");
+
+    fetchEvents();
+
+  } catch {
+
+    toast.error("Update failed");
   }
 };
   return (
@@ -158,7 +235,7 @@ const handleCreate = async () => {
             <Typography
               variant="h4"
               fontWeight="bold"
-              color="white"
+              sx={{ color: "white" }}
               mb={5}
             >
               Create Event
@@ -187,7 +264,7 @@ const handleCreate = async () => {
                 sx={buttonStyle}
                 onClick={handleCreate}
               >
-                Add Event
+                {editingId ? "Update Event" : "Add Event"}
               </Button>
               <Box mt={5}>
 
@@ -203,14 +280,47 @@ const handleCreate = async () => {
                 }}
                 >
 
-                <Typography color="white">
+                <Typography
+                  sx={{
+                  color: "white",
+                  fontWeight: "bold",
+                  fontSize: "1.1rem"
+                  }}
+                >
                   {event.title}
                 </Typography>
 
-                <Typography color="#94a3b8">
+                <Typography
+                 sx={{
+                 color: "#cbd5e1",
+                 mt: 1
+                }}
+                >
                   {event.location}
                 </Typography>
+                <Button
+                  onClick={() => handleDelete(event.id)}
+                  sx={{
+                    mr: 2,
+                    backgroundColor: "#ef4444",
+                    fontWeight: "normal",
+                    color: "white"
+                  }}
+                >
+                  Delete
+                </Button>
 
+                <Button
+                  onClick={() => handleEdit(event)}
+                  
+                  sx={{
+                    backgroundColor: "#3b82f6",
+                    fontWeight: "normal",
+                    color: "white"
+                  }}
+                >
+                 Edit
+                </Button>
                 </Box>
 
             ))}
@@ -268,16 +378,10 @@ const buttonStyle = {
 
   fontWeight: "bold",
 
-  fontSize: "1rem",
-
   textTransform: "none",
 
   background:
-    "linear-gradient(135deg,#06b6d4,#0891b2,#2563eb)",
-
-  boxShadow:
-    "0 12px 35px rgba(6,182,212,0.4)",
-
+    "linear-gradient(90deg,#2563eb,#4f46e5)",
   transition: "0.35s",
 
   "&:hover": {

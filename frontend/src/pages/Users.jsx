@@ -8,6 +8,7 @@ import {
   Button,
   Stack
 } from "@mui/material";
+import TablePagination from "@mui/material/TablePagination";
 
 import { useEffect, useState } from "react";
 
@@ -16,8 +17,11 @@ import toast from "react-hot-toast";
 import API from "../services/api";
 import {
   getUsers,
-  createUser
+  createUser,
+  deleteUser
 } from "../services/userService";
+
+
 function Users() {
   const [users, setUsers] =
     useState([]);
@@ -30,6 +34,10 @@ function Users() {
 
   const [password, setPassword] =
     useState("");
+  const [editingId, setEditingId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   useEffect(() => {
 
   fetchUsers();
@@ -57,11 +65,13 @@ const handleCreate = async () => {
     await createUser({
       name,
       email,
-      password
+      password,
+      role: "USER"
     });
 
     toast.success("User created");
-
+    
+    setEditingId(null);
     fetchUsers();
 
   } catch (error) {
@@ -78,6 +88,25 @@ const handleCreate = async () => {
     `Error ${error.response?.status}`
   );
 }
+};
+const handleDelete = async (id) => {
+
+  const confirm = window.confirm("Are you sure you want to delete this user?");
+
+  if (!confirm) return;
+
+  try {
+
+    await deleteUser(id);
+
+    toast.success("User deleted");
+
+    fetchUsers();
+
+  } catch {
+
+    toast.error("Delete failed");
+  }
 };
   return (
 
@@ -138,10 +167,10 @@ const handleCreate = async () => {
           <CardContent sx={{ p: 6 }}>
 
             <Typography
-              variant="h4"
-              fontWeight="bold"
-              color="white"
-              mb={5}
+                variant="h4"
+                fontWeight="bold"
+                sx={{ color: "white" }}
+                mb={5}
             >
               Create User
             </Typography>
@@ -180,9 +209,23 @@ const handleCreate = async () => {
               >
                 Add User
               </Button>
+              <TextField
+                fullWidth
+                label="Search user"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                sx={inputStyle}
+
+              />
             <Box mt={5}>
 
-              {users.map((user) => (
+              {users
+                .filter((user) =>
+                  user.name.toLowerCase().includes(search.toLowerCase()) ||
+                  user.email.toLowerCase().includes(search.toLowerCase())
+                )
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((user) => (
 
                <Box
                 key={user.id}
@@ -191,17 +234,54 @@ const handleCreate = async () => {
                   p: 2,
                   borderRadius: 3,
                   background:
-                    "rgba(255,255,255,0.05)"
-                }}
-              >
+                    "rgba(110, 186, 99, 0.05)"
+                 }}
+                >
 
-                <Typography color="white">
+                <Typography
+                  sx={{
+                    color: "white",
+                    fontWeight: "bold",
+                    fontSize: "1.1rem"
+                  }}
+                >
                   {user.name}
                 </Typography>
 
-                <Typography color="#94a3b8">
+                <Typography
+                  sx={{
+                  color: "#cbd5e1",
+                  mt: 1
+                  }}
+                >
                   {user.email}
                 </Typography>
+                <Button
+                  onClick={() => handleDelete(user.id)}
+                  sx={{
+                    mr: 2,
+                    backgroundColor: "#ef4444",
+                    fontWeight: "normal",
+                    color: "white"
+                  }}
+                >
+                  Delete
+                </Button>
+
+                <Button
+                  onClick={() => {
+                   setEditingId(user.id);
+                   setName(user.name);
+                   setEmail(user.email);
+                  }}
+                  sx={{
+                    backgroundColor: "#3b82f6",
+                    fontWeight: "normal",
+                    color: "white"
+                  }}
+                >
+                 Edit
+                </Button>
 
             </Box>
       ))}
@@ -239,7 +319,9 @@ const inputStyle = {
       "rgba(255,255,255,0.03)",
 
     color: "white",
-
+    "& input": {
+      color: "white"
+    },
     "& fieldset": {
       borderColor:
         "rgba(148,163,184,0.15)"
@@ -256,7 +338,11 @@ const inputStyle = {
 
   "& .MuiInputLabel-root": {
     color: "#94a3b8"
+  },
+   "& .MuiInputLabel-root.Mui-focused": {
+    color: "#60a5fa"
   }
+  
 };
 
 const buttonStyle = {
@@ -270,7 +356,20 @@ const buttonStyle = {
   textTransform: "none",
 
   background:
-    "linear-gradient(90deg,#2563eb,#4f46e5)"
+    "linear-gradient(90deg,#2563eb,#4f46e5)",
+  transition: "0.35s",
+
+  "&:hover": {
+
+    transform: "translateY(-3px)",
+
+    background:
+      "linear-gradient(135deg,#0891b2,#2563eb)",
+
+    boxShadow:
+      "0 18px 45px rgba(6,182,212,0.55)"
+  }
 };
+
 
 export default Users;

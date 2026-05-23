@@ -7,7 +7,15 @@ import {
   CardContent,
   Container
 } from "@mui/material";
-
+const cardStyle = {
+  borderRadius: 5,
+  background:
+    "linear-gradient(145deg,rgba(15,23,42,0.92),rgba(30,41,59,0.78))",
+  backdropFilter: "blur(25px)",
+  border: "1px solid rgba(255,255,255,0.08)",
+  boxShadow:
+    "0 25px 80px rgba(0,0,0,0.55)"
+};
 import {
   Link
 } from "react-router-dom";
@@ -15,8 +23,35 @@ import {
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import BlurOnIcon from "@mui/icons-material/BlurOn";
 
+import { useEffect, useState } from "react";
+import {
+  getUsersCount,
+  getEventsCount,
+  getRegistrationsCount
+} from "../services/dashboardService";
 function Dashboard() {
+  const [usersCount, setUsersCount] = useState(0);
+  const [eventsCount, setEventsCount] = useState(0);
+  const [registrationsCount, setRegistrationsCount] = useState(0);
+  useEffect(() => {
+  loadStats();
+  }, []);
 
+  const loadStats = async () => {
+    try {
+      const users = await getUsersCount();
+      const events = await getEventsCount();
+      const regs = await getRegistrationsCount();
+
+      setUsersCount(users);
+      setEventsCount(events);
+      setRegistrationsCount(regs);
+
+    } catch (err) {
+      console.log(err);
+  }
+};
+  
   const services = [
     {
       title: "Users",
@@ -175,7 +210,44 @@ function Dashboard() {
         </Grid>
 
       </Container>
+      <Box textAlign="center" mb={8}>
+  <Grid container spacing={3} justifyContent="center">
 
+    <Grid item xs={12} md={4}>
+      <Card sx={{ ...cardStyle, p: 3 }}>
+        <Typography variant="h3" color="white">
+          {usersCount}
+        </Typography>
+        <Typography color="#94a3b8">
+          Users
+        </Typography>
+      </Card>
+    </Grid>
+
+    <Grid item xs={12} md={4}>
+      <Card sx={{ ...cardStyle, p: 3 }}>
+        <Typography variant="h3" color="white">
+          {eventsCount}
+        </Typography>
+        <Typography color="#94a3b8">
+          Events
+        </Typography>
+      </Card>
+    </Grid>
+
+    <Grid item xs={12} md={4}>
+      <Card sx={{ ...cardStyle, p: 3 }}>
+        <Typography variant="h3" color="white">
+          {registrationsCount}
+        </Typography>
+        <Typography color="#94a3b8">
+          Registrations
+        </Typography>
+      </Card>
+    </Grid>
+
+  </Grid>
+</Box>
       {/* SERVICES */}
 
       <Box

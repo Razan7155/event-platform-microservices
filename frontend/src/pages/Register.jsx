@@ -13,26 +13,86 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 import {
-  createRegistration
+  createRegistration,
+  getRegistrations,
+  updateRegistration,
+  deleteRegistration
 } from "../services/registrationService";
 function Register() {
   const [userId, setUserId] = useState("");
 
   const [eventId, setEventId] = useState(""); 
+  const [registrations, setRegistrations] = useState([]);
+  const [editingId, setEditingId] = useState(null);
+  useEffect(() => {
+  fetchRegistrations();
+  }, []);
+  const fetchRegistrations = async () => {
+
+  try {
+
+    const data = await getRegistrations();
+
+    setRegistrations(data);
+
+  } catch {
+
+    toast.error("Cannot load registrations");
+  }
+};
   const handleRegister = async () => {
 
   try {
 
-    await createRegistration({
-      userId,
-      eventId
-    });
+    if (editingId) {
 
-    toast.success("Registration created");
+      await updateRegistration(editingId, {
+        userId,
+        eventId
+      });
+
+      toast.success("Registration updated");
+
+      setEditingId(null);
+
+    } else {
+
+      await createRegistration({
+        userId,
+        eventId
+      });
+
+      toast.success("Registration created");
+    }
+
+    setUserId("");
+    setEventId("");
+
+    fetchRegistrations();
 
   } catch {
 
-    toast.error("Registration failed");
+    toast.error("Operation failed");
+  }
+};
+const handleDelete = async (id) => {
+
+  const confirmDelete =
+    window.confirm("Delete registration?");
+
+  if (!confirmDelete) return;
+
+  try {
+
+    await deleteRegistration(id);
+
+    toast.success("Registration deleted");
+
+    fetchRegistrations();
+
+  } catch {
+
+    toast.error("Delete failed");
   }
 };
   return (
@@ -96,7 +156,7 @@ function Register() {
             <Typography
               variant="h4"
               fontWeight="bold"
-              color="white"
+              sx={{ color: "white" }}
               mb={5}
             >
               Create Registration
@@ -126,8 +186,50 @@ function Register() {
                 onClick={handleRegister}
               >
               
-                Register User
+                {editingId ? "Update Registration" : "Register User"}
               </Button>
+              <Box mt={5}>
+
+                  {registrations.map((reg) => (
+
+                 <Box
+                    key={reg.id}
+                    sx={{
+                      mb: 2,
+                      p: 2,
+                      borderRadius: 3,
+                      background: "rgba(255,255,255,0.05)"
+                    }}
+                  >
+
+                  <Typography color="white">
+                    User ID: {reg.userId}
+                  </Typography>
+
+                  <Typography color="#94a3b8">
+                    Event ID: {reg.eventId}
+                  </Typography>
+
+                   <Button
+                    color="error"
+        onClick={() => handleDelete(reg.id)}
+      >
+        Delete
+      </Button>
+
+      <Button
+        onClick={() => {
+          setEditingId(reg.id);
+          setUserId(reg.userId);
+          setEventId(reg.eventId);
+        }}
+      >
+        Edit
+      </Button>
+
+    </Box>
+  ))}
+</Box>
 
             </Stack>
 
@@ -192,7 +294,19 @@ const buttonStyle = {
   textTransform: "none",
 
   background:
-    "linear-gradient(90deg,#7c3aed,#8b5cf6)"
+    "linear-gradient(90deg,#2563eb,#4f46e5)",
+  transition: "0.35s",
+
+  "&:hover": {
+
+    transform: "translateY(-3px)",
+
+    background:
+      "linear-gradient(135deg,#0891b2,#2563eb)",
+
+    boxShadow:
+      "0 18px 45px rgba(6,182,212,0.55)"
+  }
 };
 
 export default Register;

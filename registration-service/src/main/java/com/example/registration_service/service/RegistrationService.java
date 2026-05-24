@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 public class RegistrationService {
-
+    
     private final RegistrationRepository repo;
     private final UserClient userClient;
     private final EventClient eventClient;

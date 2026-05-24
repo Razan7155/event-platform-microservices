@@ -6,7 +6,19 @@ export const getRegistrations = async () => {
 };
 
 export const createRegistration = async (data) => {
-  const response = await API.post("/registrations", data);
+
+  const response = await API.post(
+    "/registrations",
+    data
+  );
+
+  console.log("STATUS =", response.status);
+  console.log("DATA =", response.data);
+
+  if (response.data?.status >= 400) {
+    throw new Error(response.data.message);
+  }
+
   return response.data;
 };
 

@@ -38,6 +38,7 @@ function Users() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [role, setRole] = useState("USER");
   useEffect(() => {
 
   fetchUsers();
@@ -66,7 +67,7 @@ const handleCreate = async () => {
       name,
       email,
       password,
-      role: "USER"
+      role
     });
 
     toast.success("User created");
@@ -201,6 +202,13 @@ const handleDelete = async (id) => {
                 onChange={(e) => setPassword(e.target.value)}
                 sx={inputStyle}
               />
+              <TextField
+                fullWidth
+                label="Role"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                sx={inputStyle}
+              />
 
               <Button
                 variant="contained"
@@ -255,6 +263,15 @@ const handleDelete = async (id) => {
                   }}
                 >
                   {user.email}
+                </Typography>
+                <Typography
+                 sx={{
+                    color: "#60a5fa",
+                    mt: 1,
+                    fontWeight: "bold"
+                 }}
+                >
+                  Role: {user.role}
                 </Typography>
                 <Button
                   onClick={() => handleDelete(user.id)}

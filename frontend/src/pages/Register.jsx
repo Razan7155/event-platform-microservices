@@ -35,9 +35,11 @@ function Register() {
 
     setRegistrations(data);
 
-  } catch {
+  } catch (error) {
 
-    toast.error("Cannot load registrations");
+  toast.error(
+    error.response?.data?.message || "Cannot load registrations"
+  );
   }
 };
   const handleRegister = async () => {
@@ -70,10 +72,16 @@ function Register() {
 
     fetchRegistrations();
 
-  } catch {
+  } catch (error) {
 
-    toast.error("Operation failed");
-  }
+  console.log(error);
+
+  toast.error(
+    error.message ||
+    error.response?.data?.message ||
+    "Operation failed"
+  );
+ }
 };
 const handleDelete = async (id) => {
 
@@ -202,30 +210,42 @@ const handleDelete = async (id) => {
                     }}
                   >
 
-                  <Typography color="white">
+                  <Typography sx={{ color: "white" }}>
                     User ID: {reg.userId}
                   </Typography>
 
-                  <Typography color="#94a3b8">
+                  <Typography sx={{ color: "white" }}>
                     Event ID: {reg.eventId}
                   </Typography>
 
-                   <Button
-                    color="error"
-        onClick={() => handleDelete(reg.id)}
-      >
-        Delete
-      </Button>
+                  <Button
+                    
+                    onClick={() => handleDelete(reg.id)}
+                    
+                  sx={{
+                    mr: 2,
+                    backgroundColor: "#ef4444",
+                    fontWeight: "normal",
+                    color: "white"
+                  }}
+                  >
+                   Delete
+                  </Button>
 
-      <Button
-        onClick={() => {
-          setEditingId(reg.id);
-          setUserId(reg.userId);
-          setEventId(reg.eventId);
-        }}
-      >
-        Edit
-      </Button>
+                  <Button
+                  onClick={() => {
+                     setEditingId(reg.id);
+                     setUserId(reg.userId);
+                     setEventId(reg.eventId);
+                  }}
+                  sx={{
+                    backgroundColor: "#3b82f6",
+                    fontWeight: "normal",
+                    color: "white"
+                  }}
+                  >
+                  Edit
+                  </Button>
 
     </Box>
   ))}

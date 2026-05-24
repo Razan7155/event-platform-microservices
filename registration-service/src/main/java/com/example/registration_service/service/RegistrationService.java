@@ -30,19 +30,34 @@ public class RegistrationService {
     public Registration register(Long userId, Long eventId) {
 
         try {
-            userClient.getUserById(userId);
+
+          Object user =
+                userClient.getUserById(userId);
+
+          System.out.println("USER FOUND = " + user);
+
         } catch (Exception e) {
-            throw new ResourceNotFoundException(
-                    "User not found with id: " + userId);
+
+           e.printStackTrace();
+
+           throw new ResourceNotFoundException(
+                "User not found with id: " + userId);
         }
 
         try {
-            eventClient.getEventById(eventId);
-        } catch (Exception e) {
-            throw new ResourceNotFoundException(
-                    "Event not found with id: " + eventId);
-        }
 
+          Object event =
+                  eventClient.getEventById(eventId);
+
+          System.out.println("EVENT FOUND = " + event);
+
+        } catch (Exception e) {
+
+           e.printStackTrace();
+
+           throw new ResourceNotFoundException(
+                "Event not found with id: " + eventId);
+        }
         if (alreadyRegistered(userId, eventId)) {
             throw new RuntimeException(
                     "User already registered for this event");

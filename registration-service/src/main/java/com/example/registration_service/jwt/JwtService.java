@@ -35,11 +35,22 @@ public class JwtService {
     }
 
     public boolean isValid(String token) {
-        try {
-            extractAllClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+
+    try {
+
+        extractAllClaims(token);
+
+        System.out.println("TOKEN VALID");
+
+        return true;
+
+    } catch (Exception e) {
+
+        System.out.println("TOKEN INVALID");
+
+        e.printStackTrace();
+
+        return false;
     }
+  }
 }

@@ -85,15 +85,15 @@ public class RegistrationService {
     return repo.save(registration);
 }
 
-public void delete(Long id) {
+    public void delete(Long id) {
 
-    Registration registration =
+        Registration registration =
             repo.findById(id)
             .orElseThrow(() ->
                     new ResourceNotFoundException(
                             "Registration not found"));
 
-    repo.delete(registration);
-}
+        repo.delete(registration);
+    }
     
 }

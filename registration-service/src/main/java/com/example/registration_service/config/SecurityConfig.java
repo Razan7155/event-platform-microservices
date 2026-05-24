@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig {
 
-    private static final String EVENTS =
-            "/events/**";
+    private static final String REGISTRATIONS =
+            "/registrations/**";
 
     private static final String ADMIN =
             "ADMIN";
@@ -51,25 +51,26 @@ public class SecurityConfig {
 
                     .requestMatchers(
                             HttpMethod.GET,
-                            EVENTS
+                            REGISTRATIONS
                     )
-                    .permitAll()
+                    .authenticated()
 
                     .requestMatchers(
                             HttpMethod.POST,
-                            EVENTS
+                            REGISTRATIONS
+
                     )
                     .hasRole(ADMIN)
 
                     .requestMatchers(
                             HttpMethod.PUT,
-                            EVENTS
+                            REGISTRATIONS
                     )
                     .hasRole(ADMIN)
 
                     .requestMatchers(
                             HttpMethod.DELETE,
-                            EVENTS
+                            REGISTRATIONS
                     )
                     .hasRole(ADMIN)
 

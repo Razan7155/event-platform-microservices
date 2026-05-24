@@ -48,34 +48,40 @@ public class SecurityConfig {
             )
 
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/test").permitAll()
-                    .requestMatchers(
-                            HttpMethod.GET,
-                            EVENTS
-                    )
-                    .permitAll()
 
-                    .requestMatchers(
-                            HttpMethod.POST,
-                            EVENTS
-                    )
-                    .hasRole(ADMIN)
+                .requestMatchers(
+          "/auth/**",
+                       "/v3/api-docs/**",
+                       "/swagger-ui/**",
+                       "/swagger-ui.html",
+                       "/h2-console/**"
+                ).permitAll()
 
-                    .requestMatchers(
-                            HttpMethod.PUT,
-                            EVENTS
-                    )
-                    .hasRole(ADMIN)
+                // EVENTS GET PUBLIC
+                .requestMatchers(
+                   HttpMethod.GET,
+                   "/events/**"
+                ).permitAll()
 
-                    .requestMatchers(
-                            HttpMethod.DELETE,
-                            EVENTS
-                    )
-                    .hasRole(ADMIN)
+               // EVENTS ADMIN ONLY
+                .requestMatchers(
+                   HttpMethod.POST,
+         "/events/**"
+                ).hasRole("ADMIN")
 
-                    .anyRequest()
-                    .authenticated()
-            )
+                .requestMatchers(
+                    HttpMethod.PUT,
+          "/events/**"
+                ).hasRole("ADMIN")
+
+                .requestMatchers(
+                     HttpMethod.DELETE,
+                       "/events/**"
+                ).hasRole("ADMIN")
+
+                .anyRequest()
+                .authenticated()
+        )
 
             .addFilterBefore(
                     jwtAuthFilter,

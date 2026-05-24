@@ -69,7 +69,20 @@ function Dashboard() {
       path: "/register"
     }
   ];
-
+  const stats = [
+  {
+    label: "Users",
+    value: usersCount
+  },
+  {
+    label: "Events",
+    value: eventsCount
+  },
+  {
+    label: "Registrations",
+    value: registrationsCount
+  }
+];
   return (
 
     <Box
@@ -210,44 +223,68 @@ function Dashboard() {
         </Grid>
 
       </Container>
-      <Box textAlign="center" mb={8}>
-  <Grid container spacing={3} justifyContent="center">
+      {/* STATS */}
 
-    <Grid item xs={12} md={4}>
-      <Card sx={{ ...cardStyle, p: 3 }}>
-        <Typography variant="h3" color="white">
-          {usersCount}
-        </Typography>
-        <Typography color="#94a3b8">
-          Users
-        </Typography>
-      </Card>
-    </Grid>
+      <Container maxWidth="lg">
 
-    <Grid item xs={12} md={4}>
-      <Card sx={{ ...cardStyle, p: 3 }}>
-        <Typography variant="h3" color="white">
-          {eventsCount}
-        </Typography>
-        <Typography color="#94a3b8">
-          Events
-        </Typography>
-      </Card>
-    </Grid>
+      <Grid
+       container
+       spacing={4}
+       justifyContent="center"
+       sx={{ mb: 14 }}
+      >
 
-    <Grid item xs={12} md={4}>
-      <Card sx={{ ...cardStyle, p: 3 }}>
-        <Typography variant="h3" color="white">
-          {registrationsCount}
-        </Typography>
-        <Typography color="#94a3b8">
-          Registrations
-        </Typography>
-      </Card>
-    </Grid>
+      {stats.map((stat, index) => (
+
+      <Grid item xs={12} sm={6} md={4} key={index}>
+
+        <Card
+          sx={{
+            ...cardStyle,
+            p: 4,
+            textAlign: "center",
+            transition: "0.35s",
+
+            "&:hover": {
+              transform: "translateY(-8px)",
+              boxShadow:
+                "0 20px 60px rgba(59,130,246,0.25)"
+            }
+          }}
+        >
+
+          <Typography
+            variant="h2"
+            fontWeight="bold"
+            sx={{
+              mb: 1,
+              background:
+                "linear-gradient(90deg,#60a5fa,#a78bfa)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent"
+            }}
+          >
+            {stat.value}
+          </Typography>
+
+          <Typography
+            sx={{
+              color: "#94a3b8",
+              fontSize: "1.1rem"
+            }}
+          >
+            {stat.label}
+          </Typography>
+
+        </Card>
+
+      </Grid>
+
+    ))}
 
   </Grid>
-</Box>
+
+</Container>
       {/* SERVICES */}
 
       <Box

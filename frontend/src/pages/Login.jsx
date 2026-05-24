@@ -209,7 +209,7 @@ function Login() {
             <Typography
               variant="h5"
               fontWeight="bold"
-              color="white"
+              sx={{ color: "white" }}
               textAlign="center"
               mb={3}
              

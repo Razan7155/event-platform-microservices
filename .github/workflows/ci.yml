@@ -24,7 +24,7 @@ jobs:
           - user-service
           - event-service
           - registration-service
-          - api-gateway
+          - api-gateway-service
           - discovery-server
 
     steps:

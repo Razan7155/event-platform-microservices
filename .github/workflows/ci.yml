@@ -24,8 +24,8 @@ jobs:
           - user-service
           - event-service
           - registration-service
-          - api-gateway-service
-          - service-discovery
+          - api-gateway
+          - discovery-server
 
     steps:
 
@@ -38,7 +38,7 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Verify files
+      - name: Verify folders
         run: ls -R
 
       - name: Build service

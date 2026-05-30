@@ -26,6 +26,7 @@ public class RegistrationController {
     public Registration create(
             @RequestBody RegistrationDTO dto
     ) {
+
         return service.register(
                 dto.getUserId(),
                 dto.getEventId()

@@ -27,48 +27,48 @@ public class RegistrationService {
         this.eventClient = eventClient;
     }
 
-    public Registration register(Long userId, Long eventId) {
+    public Registration register(
+        Long userId,
+        Long eventId
+) {
 
-        try {
+    try {
 
-          Object user =
-                userClient.getUserById(userId);
+        userClient.getUserById(userId);
 
-          System.out.println("USER FOUND = " + user);
+    } catch (Exception e) {
 
-        } catch (Exception e) {
-
-           e.printStackTrace();
-
-           throw new ResourceNotFoundException(
-                "User not found with id: " + userId);
-        }
-
-        try {
-
-          Object event =
-                  eventClient.getEventById(eventId);
-
-          System.out.println("EVENT FOUND = " + event);
-
-        } catch (Exception e) {
-
-           e.printStackTrace();
-
-           throw new ResourceNotFoundException(
-                "Event not found with id: " + eventId);
-        }
-        if (alreadyRegistered(userId, eventId)) {
-            throw new RuntimeException(
-                    "User already registered for this event");
-        }
-
-        Registration r = new Registration();
-        r.setUserId(userId);
-        r.setEventId(eventId);
-
-        return repo.save(r);
+        throw new ResourceNotFoundException(
+                "User not found with id: " + userId
+        );
     }
+
+    try {
+
+        eventClient.getEventById(eventId);
+
+    } catch (Exception e) {
+
+        throw new ResourceNotFoundException(
+                "Event not found with id: " + eventId
+        );
+    }
+
+    if (alreadyRegistered(userId, eventId)) {
+
+        throw new RuntimeException(
+                "User already registered for this event"
+        );
+    }
+
+    Registration registration =
+            new Registration();
+
+    registration.setUserId(userId);
+    registration.setEventId(eventId);
+
+    return repo.save(registration);
+}
 
     public List<Registration> getAll() {
         return repo.findAll();

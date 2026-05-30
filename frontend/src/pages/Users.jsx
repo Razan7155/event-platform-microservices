@@ -18,7 +18,8 @@ import API from "../services/api";
 import {
   getUsers,
   createUser,
-  deleteUser
+  deleteUser,
+  updateUser
 } from "../services/userService";
 
 
@@ -60,35 +61,41 @@ const fetchUsers = async () => {
   }
 };
 const handleCreate = async () => {
-
   try {
 
-    await createUser({
-      name,
-      email,
-      password,
-      role
-    });
+    if (editingId) {
 
-    toast.success("User created");
-    
+      await updateUser(editingId, {
+        name,
+        email,
+        password,
+        role: "USER"
+      });
+
+      toast.success("User updated");
+
+    } else {
+
+      await createUser({
+        name,
+        email,
+        password,
+        role: "USER"
+      });
+
+      toast.success("User created");
+    }
+
     setEditingId(null);
+    setName("");
+    setEmail("");
+    setPassword("");
+
     fetchUsers();
 
   } catch (error) {
-
-  console.log(error);
-
-  console.log(error.response);
-
-  console.log(error.response?.status);
-
-  console.log(error.response?.data);
-
-  toast.error(
-    `Error ${error.response?.status}`
-  );
-}
+    toast.error("Operation failed");
+  }
 };
 const handleDelete = async (id) => {
 
@@ -215,7 +222,7 @@ const handleDelete = async (id) => {
                 sx={buttonStyle}
                 onClick={handleCreate}
               >
-                Add User
+               {editingId ? "Update User" : "Add User"}
               </Button>
               <TextField
                 fullWidth

@@ -60,7 +60,7 @@ public class SecurityConfig {
                             REGISTRATIONS
 
                     )
-                    .hasRole(ADMIN)
+                    .hasAnyRole("USER", "ADMIN")
 
                     .requestMatchers(
                             HttpMethod.PUT,

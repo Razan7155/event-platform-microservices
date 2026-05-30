@@ -6,23 +6,31 @@ import com.example.registration_service.service.RegistrationService;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/registrations")
 public class RegistrationController {
 
     private final RegistrationService service;
 
-    public RegistrationController(RegistrationService service) {
+    public RegistrationController(
+            RegistrationService service
+    ) {
         this.service = service;
     }
 
     @PostMapping
-    public Registration register(@RequestBody RegistrationDTO dto) {
-    return service.register(dto.getUserId(), dto.getEventId());
-   }
+    public Registration create(
+            @RequestBody RegistrationDTO dto
+    ) {
+        return service.register(
+                dto.getUserId(),
+                dto.getEventId()
+        );
+    }
 
     @GetMapping
     public List<Registration> getAll() {
@@ -30,20 +38,24 @@ public class RegistrationController {
     }
 
     @GetMapping("/event/{eventId}")
-    public List<Registration> getByEventId(@PathVariable Long eventId) {
+    public List<Registration> getByEventId(
+            @PathVariable Long eventId
+    ) {
         return service.getByEventId(eventId);
     }
+
     @PutMapping("/{id}")
     public Registration update(
-        @PathVariable Long id,
-        @RequestBody RegistrationDTO dto) {
+            @PathVariable Long id,
+            @RequestBody RegistrationDTO dto
+    ) {
+        return service.update(id, dto);
+    }
 
-    return service.update(id, dto);
-}
-
-   @DeleteMapping("/{id}")
-   public void delete(@PathVariable Long id) {
-
-    service.delete(id);
-}
+    @DeleteMapping("/{id}")
+    public void delete(
+            @PathVariable Long id
+    ) {
+        service.delete(id);
+    }
 }

@@ -49,35 +49,37 @@ public class SecurityConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                    .requestMatchers(
-                            HttpMethod.GET,
-                            REGISTRATIONS
-                    )
-                    .authenticated()
+                // Voir toutes les inscriptions -> ADMIN
+                .requestMatchers(
+                   HttpMethod.GET,
+                   REGISTRATIONS
+               )
+               .hasRole(ADMIN)
 
-                    .requestMatchers(
-                            HttpMethod.POST,
-                            REGISTRATIONS
+                // Créer une inscription -> USER ou ADMIN
+               .requestMatchers(
+                HttpMethod.POST,
+                REGISTRATIONS
+               )
+               .hasAnyRole("USER", "ADMIN")
 
-                    )
-                    .hasAnyRole("USER", "ADMIN")
+               // Modifier -> ADMIN
+               .requestMatchers(
+                  HttpMethod.PUT,
+                  REGISTRATIONS
+                )
+               .hasRole(ADMIN)
 
-                    .requestMatchers(
-                            HttpMethod.PUT,
-                            REGISTRATIONS
-                    )
-                    .hasRole(ADMIN)
+              // Supprimer -> ADMIN
+              .requestMatchers(
+                HttpMethod.DELETE,
+                REGISTRATIONS
+             )
+             .hasRole(ADMIN)
 
-                    .requestMatchers(
-                            HttpMethod.DELETE,
-                            REGISTRATIONS
-                    )
-                    .hasRole(ADMIN)
-
-                    .anyRequest()
-                    .authenticated()
-            )
-
+             .anyRequest()
+             .authenticated()
+        )
             .addFilterBefore(
                     jwtAuthFilter,
                     UsernamePasswordAuthenticationFilter.class

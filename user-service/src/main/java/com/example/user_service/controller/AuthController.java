@@ -50,7 +50,11 @@ public class AuthController {
                         user.getRole()
                 );
 
-        return new LoginResponse(token);
+        return new LoginResponse(
+        token,
+        user.getId(),
+        user.getRole()
+);
     }
 
     // REGISTER

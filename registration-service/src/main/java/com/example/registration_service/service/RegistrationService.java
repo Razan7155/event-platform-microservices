@@ -3,11 +3,13 @@ package com.example.registration_service.service;
 import com.example.registration_service.client.EventClient;
 import com.example.registration_service.client.UserClient;
 import com.example.registration_service.dto.RegistrationDTO;
+import com.example.registration_service.dto.UserDTO;
 import com.example.registration_service.exception.ResourceNotFoundException;
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.repository.RegistrationRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -94,7 +96,6 @@ public class RegistrationService {
                     new ResourceNotFoundException(
                             "Registration not found"));
 
-    registration.setUserId(dto.getUserId());
     registration.setEventId(dto.getEventId());
 
     return repo.save(registration);
@@ -110,5 +111,18 @@ public class RegistrationService {
 
         repo.delete(registration);
     }
+public Registration createForUser(
+        String email,
+        Long eventId
+) {
+
+    UserDTO user =
+            userClient.getUserByEmail(email);
+
+    return register(
+            user.getId(),
+            eventId
+    );
+}
     
 }

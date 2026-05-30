@@ -7,7 +7,8 @@ import com.example.registration_service.service.RegistrationService;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
-
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 @RestController
@@ -24,14 +25,17 @@ public class RegistrationController {
 
     @PostMapping
     public Registration create(
-            @RequestBody RegistrationDTO dto
+        @RequestBody RegistrationDTO dto,
+        Authentication authentication
     ) {
 
-        return service.register(
-                dto.getUserId(),
-                dto.getEventId()
-        );
-    }
+    String email = authentication.getName();
+
+    return service.createForUser(
+            email,
+            dto.getEventId()
+    );
+}
 
     @GetMapping
     public List<Registration> getAll() {

@@ -67,7 +67,7 @@ public class SecurityConfig {
                 .requestMatchers(
                    HttpMethod.POST,
          "/events/**"
-                ).hasRole("ADMIN")
+                ).permitAll()
 
                 .requestMatchers(
                     HttpMethod.PUT,

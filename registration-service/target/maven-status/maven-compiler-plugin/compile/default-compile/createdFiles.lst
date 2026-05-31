@@ -1,0 +1,12 @@
+com\example\registration_service\service\RegistrationService.class
+com\example\registration_service\exception\GlobalExceptionHandler.class
+com\example\registration_service\repository\RegistrationRepository.class
+com\example\registration_service\client\UserClient.class
+com\example\registration_service\client\EventClient.class
+com\example\registration_service\controller\RegistrationController.class
+com\example\registration_service\model\Registration.class
+com\example\registration_service\config\OpenAPIConfig.class
+com\example\registration_service\exception\ErrorResponse.class
+com\example\registration_service\RegistrationServiceApplication.class
+com\example\registration_service\dto\RegistrationDTO.class
+com\example\registration_service\exception\ResourceNotFoundException.class

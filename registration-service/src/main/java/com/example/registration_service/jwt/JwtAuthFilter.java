@@ -23,7 +23,7 @@ import java.util.List;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-
+    
     private final JwtService jwtService;
 
     public JwtAuthFilter(JwtService jwtService) {

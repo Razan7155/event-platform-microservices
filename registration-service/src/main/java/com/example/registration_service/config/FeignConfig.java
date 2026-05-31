@@ -14,28 +14,31 @@ public class FeignConfig {
     @Bean
     public RequestInterceptor requestInterceptor() {
 
-        return requestTemplate -> {
+    System.out.println("FEIGN CONFIG LOADED");
 
-            Authentication auth =
-                    SecurityContextHolder
-                            .getContext()
-                            .getAuthentication();
+    return requestTemplate -> {
 
-            System.out.println("AUTH = " + auth);
+        System.out.println("INTERCEPTOR EXECUTED");
 
-            if (auth != null &&
-                auth.getCredentials() != null) {
+        Authentication auth =
+            SecurityContextHolder
+                .getContext()
+                .getAuthentication();
 
-                String token =
-                        auth.getCredentials().toString();
+        System.out.println("AUTH = " + auth);
 
-                System.out.println("TOKEN SENT = " + token);
+        if (auth != null) {
 
-                requestTemplate.header(
-                        "Authorization",
-                        "Bearer " + token
-                );
-            }
-        };
-    }
+            String token =
+                auth.getCredentials().toString();
+
+            System.out.println("TOKEN SENT = " + token);
+
+            requestTemplate.header(
+                "Authorization",
+                "Bearer " + token
+            );
+        }
+    };
+}
 }

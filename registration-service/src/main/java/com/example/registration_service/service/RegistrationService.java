@@ -90,13 +90,7 @@ public class RegistrationService {
         repo.delete(registration);
     }
 public Registration createForUser(String email, Long eventId) {
-
-    UserDTO user = userClient.getUserByEmail(email);
-    if (user == null) {
-        throw new RuntimeException("User not found by email: " + email);
-    }
-
-    return register(user.getId(), eventId);
+    return register(email, eventId);
 }
     
 }

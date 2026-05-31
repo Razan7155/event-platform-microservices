@@ -1,6 +1,7 @@
 package com.example.registration_service.service;
 import com.example.registration_service.client.EventClient;
 import com.example.registration_service.client.UserClient;
+import com.example.registration_service.dto.UserDTO;
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.repository.RegistrationRepository;
 import org.junit.jupiter.api.Test;
@@ -31,9 +32,12 @@ class RegistrationServiceTest {
 
     @Test
     void testRegister() {
-
-        when(userClient.getUserById(1L))
-                .thenReturn(new Object());
+         UserDTO user = new UserDTO();
+         user.setId(1L);
+         user.setEmail("test@gmail.com");
+         
+        when(userClient.getUserByEmail("test@gmail.com"))
+                .thenReturn(user);
 
         when(eventClient.getEventById(1L))
                 .thenReturn(new Object());
@@ -46,7 +50,7 @@ class RegistrationServiceTest {
         when(repo.save(any(Registration.class)))
                 .thenReturn(saved);
 
-        Registration result = service.register(1L, 1L);
+        Registration result = service.register("test@gmail.com", 1L);
 
         assertEquals(1L, result.getUserId());
         assertEquals(1L, result.getEventId());

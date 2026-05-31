@@ -19,7 +19,7 @@ import {
   deleteRegistration
 } from "../services/registrationService";
 function Register() {
-  const [userId, setUserId] = useState("");
+  
 
   const [eventId, setEventId] = useState(""); 
   const [registrations, setRegistrations] = useState([]);
@@ -60,7 +60,6 @@ function Register() {
     } else {
 
       await createRegistration({
-        userId,
         eventId
       });
 
@@ -172,13 +171,13 @@ const handleDelete = async (id) => {
 
             <Stack spacing={4}>
 
-              <TextField
+              {/* <TextField
                 fullWidth
                 label="User ID"
                 sx={inputStyle}
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
-              />
+              /> */}
 
               <TextField
                 fullWidth

@@ -13,10 +13,9 @@ import com.example.registration_service.dto.UserDTO;
     configuration = com.example.registration_service.config.FeignConfig.class
 )
 public interface UserClient {
-
     @GetMapping("/users/{id}")
-    Object getUserById(@PathVariable("id") Long id);
-
+    Object getUserById(@PathVariable Long id);
+   
     @GetMapping("/users/email/{email}")
     UserDTO getUserByEmail(
         @PathVariable("email") String email

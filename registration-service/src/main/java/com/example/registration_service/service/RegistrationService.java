@@ -7,7 +7,7 @@ import com.example.registration_service.dto.UserDTO;
 import com.example.registration_service.exception.ResourceNotFoundException;
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.repository.RegistrationRepository;
-
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -29,47 +29,25 @@ public class RegistrationService {
         this.eventClient = eventClient;
     }
 
-    public Registration register(
-        Long userId,
-        Long eventId
-) {
+    public Registration register(String email, Long eventId) {
 
-    try {
+    UserDTO user = userClient.getUserByEmail(email);
 
-        userClient.getUserById(userId);
-
-    } catch (Exception e) {
-
-        throw new ResourceNotFoundException(
-                "User not found with id: " + userId
-        );
+    if (user == null) {
+        throw new ResourceNotFoundException("User not found");
     }
 
-    try {
+    eventClient.getEventById(eventId);
 
-        eventClient.getEventById(eventId);
-
-    } catch (Exception e) {
-
-        throw new ResourceNotFoundException(
-                "Event not found with id: " + eventId
-        );
+    if (alreadyRegistered(user.getId(), eventId)) {
+        throw new RuntimeException("Already registered");
     }
 
-    if (alreadyRegistered(userId, eventId)) {
+    Registration r = new Registration();
+    r.setUserId(user.getId());
+    r.setEventId(eventId);
 
-        throw new RuntimeException(
-                "User already registered for this event"
-        );
-    }
-
-    Registration registration =
-            new Registration();
-
-    registration.setUserId(userId);
-    registration.setEventId(eventId);
-
-    return repo.save(registration);
+    return repo.save(r);
 }
 
     public List<Registration> getAll() {
@@ -111,18 +89,14 @@ public class RegistrationService {
 
         repo.delete(registration);
     }
-public Registration createForUser(
-        String email,
-        Long eventId
-) {
+public Registration createForUser(String email, Long eventId) {
 
-    UserDTO user =
-            userClient.getUserByEmail(email);
+    UserDTO user = userClient.getUserByEmail(email);
+    if (user == null) {
+        throw new RuntimeException("User not found by email: " + email);
+    }
 
-    return register(
-            user.getId(),
-            eventId
-    );
+    return register(user.getId(), eventId);
 }
     
 }

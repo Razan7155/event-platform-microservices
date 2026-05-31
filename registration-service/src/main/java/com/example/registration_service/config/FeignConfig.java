@@ -9,22 +9,24 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.Authentication;
 @Configuration
 public class FeignConfig {
+
     @Bean
     public RequestInterceptor requestInterceptor() {
+        return requestTemplate -> {
 
-    return requestTemplate -> {
+            var auth =
+                SecurityContextHolder.getContext()
+                        .getAuthentication();
 
-        Authentication auth =
-                SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.getCredentials() != null) {
 
-        if (auth != null && auth.getDetails() != null) {
+                String token = auth.getCredentials().toString();
 
-            String token = auth.getDetails().toString();
-
-            requestTemplate.header("Authorization", "Bearer " + token);
-
-            System.out.println("TOKEN FORWARDED = " + token);
-        }
-    };
-}
+                requestTemplate.header(
+                        "Authorization",
+                        "Bearer " + token
+                );
+            }
+        };
+    }
 }

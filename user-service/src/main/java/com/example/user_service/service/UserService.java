@@ -102,4 +102,13 @@ public class UserService {
                 ,user.getRole()
         );
     }
+
+    public UserResponseDTO getByEmail(String email) {
+
+    User user = repo.findByEmail(email)
+            .orElseThrow(() ->
+                    new RuntimeException("User not found"));
+
+    return mapToDTO(user);
+}
 }

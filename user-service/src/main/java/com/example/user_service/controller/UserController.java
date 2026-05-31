@@ -52,5 +52,10 @@ public class UserController {
     public void delete(@PathVariable Long id) {
         service.delete(id);
     }
-    
+    @GetMapping("/email/{email}")
+    public UserResponseDTO getByEmail(
+        @PathVariable String email
+    ) {
+    return service.getByEmail(email);
+}
 }

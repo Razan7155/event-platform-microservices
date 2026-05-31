@@ -73,7 +73,11 @@ public class SecurityConfig {
                 "/registrations/**"
                     )
                     .hasAnyRole("USER", "ADMIN")
-
+                    .requestMatchers(
+                      HttpMethod.GET,
+         "/users/email/**"
+                    )
+                    .hasAnyRole("USER", "ADMIN")
                     // USERS ADMIN ONLY
                     .requestMatchers(
                 "/users/**"

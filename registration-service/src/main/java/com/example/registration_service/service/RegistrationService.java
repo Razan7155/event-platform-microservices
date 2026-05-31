@@ -89,8 +89,9 @@ public class RegistrationService {
 
         repo.delete(registration);
     }
-public Registration createForUser(String email, Long eventId) {
+    public Registration createForUser(String email, Long eventId) {
     return register(email, eventId);
-}
+    }
+    
     
 }

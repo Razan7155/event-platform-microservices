@@ -1,5 +1,6 @@
 package com.example.user_service.service;
 
+
 import com.example.user_service.model.User;
 import com.example.user_service.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class UserService {
         this.repo = repo;
     }
 
-    public User create(User u) {
-        return repo.save(u);
+    public User create(User user) {
+        return repo.save(user);
     }
 
     public List<User> getAll() {

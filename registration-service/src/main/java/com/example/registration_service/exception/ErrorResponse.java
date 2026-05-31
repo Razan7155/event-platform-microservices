@@ -1,7 +1,7 @@
 package com.example.registration_service.exception;
 
-
 public class ErrorResponse {
+
     private String message;
     private int status;
 

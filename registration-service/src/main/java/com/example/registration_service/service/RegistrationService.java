@@ -1,76 +1,114 @@
 package com.example.registration_service.service;
 
+import com.example.registration_service.client.EventClient;
+import com.example.registration_service.client.UserClient;
+import com.example.registration_service.dto.RegistrationDTO;
 import com.example.registration_service.exception.ResourceNotFoundException;
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.repository.RegistrationRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class RegistrationService {
-
+    
     private final RegistrationRepository repo;
-    private final RestTemplate restTemplate;
+    private final UserClient userClient;
+    private final EventClient eventClient;
 
-    public RegistrationService(RegistrationRepository repo, RestTemplate restTemplate) {
+    public RegistrationService(RegistrationRepository repo,
+                               UserClient userClient,
+                               EventClient eventClient) {
+
         this.repo = repo;
-        this.restTemplate = restTemplate;
-    }
-
-    private void checkUserExists(Long userId) {
-        try {
-            restTemplate.getForObject(
-                    "http://localhost:8081/users/" + userId,
-                    Object.class
-            );
-        } catch (Exception e) {
-             throw new ResourceNotFoundException("User not found with id: " + userId);
-            }
-    }
-
-    private void checkEventExists(Long eventId) {
-        try {
-            restTemplate.getForObject(
-                    "http://localhost:8082/events/" + eventId,
-                    Object.class
-            );
-        } catch (Exception e) {
-            throw new ResourceNotFoundException("Event not found with id: " + eventId);
-        }
+        this.userClient = userClient;
+        this.eventClient = eventClient;
     }
 
     public Registration register(Long userId, Long eventId) {
 
-    // 1. vérifier user
-    checkUserExists(userId);
+        try {
 
-    // 2. vérifier event
-    checkEventExists(eventId);
+          Object user =
+                userClient.getUserById(userId);
 
-    // 3. vérifier duplication
-    if (alreadyRegistered(userId, eventId)) {
-        throw new RuntimeException("User already registered for this event");
+          System.out.println("USER FOUND = " + user);
+
+        } catch (Exception e) {
+
+           e.printStackTrace();
+
+           throw new ResourceNotFoundException(
+                "User not found with id: " + userId);
+        }
+
+        try {
+
+          Object event =
+                  eventClient.getEventById(eventId);
+
+          System.out.println("EVENT FOUND = " + event);
+
+        } catch (Exception e) {
+
+           e.printStackTrace();
+
+           throw new ResourceNotFoundException(
+                "Event not found with id: " + eventId);
+        }
+        if (alreadyRegistered(userId, eventId)) {
+            throw new RuntimeException(
+                    "User already registered for this event");
+        }
+
+        Registration r = new Registration();
+        r.setUserId(userId);
+        r.setEventId(eventId);
+
+        return repo.save(r);
     }
 
-    // 4. créer inscription
-    Registration r = new Registration();
-    r.setUserId(userId);
-    r.setEventId(eventId);
-
-    return repo.save(r);
-    }
     public List<Registration> getAll() {
-    return repo.findAll();
+        return repo.findAll();
     }
 
     public List<Registration> getByEventId(Long eventId) {
-    return repo.findByEventId(eventId);
+        return repo.findByEventId(eventId);
     }
+
     private boolean alreadyRegistered(Long userId, Long eventId) {
-    return repo.findAll().stream()
-            .anyMatch(r -> r.getUserId().equals(userId)
-                        && r.getEventId().equals(eventId));
+        return repo.findAll().stream()
+                .anyMatch(r ->
+                        r.getUserId().equals(userId)
+                                && r.getEventId().equals(eventId));
     }
+    public Registration update(
+        Long id,
+        RegistrationDTO dto) {
+
+    Registration registration =
+            repo.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Registration not found"));
+
+    registration.setUserId(dto.getUserId());
+    registration.setEventId(dto.getEventId());
+
+    return repo.save(registration);
+}
+
+    public void delete(Long id) {
+
+        Registration registration =
+            repo.findById(id)
+            .orElseThrow(() ->
+                    new ResourceNotFoundException(
+                            "Registration not found"));
+
+        repo.delete(registration);
+    }
+    
 }

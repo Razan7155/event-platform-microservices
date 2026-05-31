@@ -1,15 +1,7 @@
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\dto\UserResponseDTO.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\config\SecurityBeansConfig.java
 C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\controller\UserController.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\config\SecurityConfig.java
 C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\dto\UserRequestDTO.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\jwt\JwtService.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\jwt\JwtAuthFilter.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\config\OpenAPIConfig.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\controller\AuthController.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\dto\LoginRequest.java
+C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\dto\UserResponseDTO.java
 C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\model\User.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\UserServiceApplication.java
-C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\dto\LoginResponse.java
 C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\repository\UserRepository.java
 C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\service\UserService.java
+C:\Users\faiz\event-platform-microservices\user-service\src\main\java\com\example\user_service\UserServiceApplication.java

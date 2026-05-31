@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-     @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ErrorResponse handleNotFound(ResourceNotFoundException ex) {
         return new ErrorResponse(ex.getMessage(), 404);
     }

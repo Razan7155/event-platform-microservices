@@ -1,9 +1,8 @@
-package com.example.event_service.jwt;
+package com.example.registration_service.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +18,6 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-
         return Jwts
                 .parserBuilder()
                 .setSigningKey(key)
@@ -29,28 +27,30 @@ public class JwtService {
     }
 
     public String extractEmail(String token) {
-
-        return extractAllClaims(token)
-                .getSubject();
+        return extractAllClaims(token).getSubject();
     }
 
     public String extractRole(String token) {
-
-        return extractAllClaims(token)
-                .get("role", String.class);
+        return extractAllClaims(token).get("role", String.class);
     }
 
     public boolean isValid(String token) {
 
-        try {
+    try {
 
-            extractAllClaims(token);
+        extractAllClaims(token);
 
-            return true;
+        System.out.println("TOKEN VALID");
 
-        } catch (Exception e) {
+        return true;
 
-            return false;
-        }
+    } catch (Exception e) {
+
+        System.out.println("TOKEN INVALID");
+
+        e.printStackTrace();
+
+        return false;
     }
+  }
 }

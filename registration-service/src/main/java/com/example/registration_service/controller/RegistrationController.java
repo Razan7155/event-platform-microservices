@@ -1,7 +1,10 @@
 package com.example.registration_service.controller;
 
+import com.example.registration_service.dto.RegistrationDTO;
 import com.example.registration_service.model.Registration;
 import com.example.registration_service.service.RegistrationService;
+
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,18 +20,30 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public Registration register(@RequestParam Long userId,
-                                 @RequestParam Long eventId) {
-        return service.register(userId, eventId);
-    }
-    
-   @GetMapping
+    public Registration register(@RequestBody RegistrationDTO dto) {
+    return service.register(dto.getUserId(), dto.getEventId());
+   }
+
+    @GetMapping
     public List<Registration> getAll() {
-    return service.getAll();
+        return service.getAll();
     }
 
     @GetMapping("/event/{eventId}")
     public List<Registration> getByEventId(@PathVariable Long eventId) {
         return service.getByEventId(eventId);
     }
+    @PutMapping("/{id}")
+    public Registration update(
+        @PathVariable Long id,
+        @RequestBody RegistrationDTO dto) {
+
+    return service.update(id, dto);
+}
+
+   @DeleteMapping("/{id}")
+   public void delete(@PathVariable Long id) {
+
+    service.delete(id);
+}
 }

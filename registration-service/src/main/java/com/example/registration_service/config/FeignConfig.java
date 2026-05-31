@@ -20,25 +20,25 @@ public class FeignConfig {
 
         System.out.println("INTERCEPTOR EXECUTED");
 
-        Authentication auth =
-            SecurityContextHolder
-                .getContext()
-                .getAuthentication();
+        // Authentication auth =
+        //     SecurityContextHolder
+        //         .getContext()
+        //         .getAuthentication();
 
-        System.out.println("AUTH = " + auth);
+        // System.out.println("AUTH = " + auth);
 
-        if (auth != null) {
+        // if (auth != null) {
 
-            String token =
-                auth.getCredentials().toString();
+        //     String token =
+        //         auth.getCredentials().toString();
 
-            System.out.println("TOKEN SENT = " + token);
+        //     System.out.println("TOKEN SENT = " + token);
 
-            requestTemplate.header(
-                "Authorization",
-                "Bearer " + token
-            );
-        }
+        //     requestTemplate.header(
+        //         "Authorization",
+        //         "Bearer " + token
+        //     );
+        // }
     };
 }
 }

@@ -1,0 +1,65 @@
+name: CI-CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  backend:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service:
+          - user-service
+          - event-service
+          - registration-service
+          - discovery-service
+          - gateway-service
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build service
+        working-directory: ${{ matrix.service }}
+        run: mvn clean install
+
+  frontend:
+
+    runs-on: ubuntu-latest
+
+    needs: backend
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build

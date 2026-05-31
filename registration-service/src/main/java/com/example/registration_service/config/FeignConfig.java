@@ -13,15 +13,23 @@ public class FeignConfig {
 
     @Bean
     public RequestInterceptor requestInterceptor() {
+
         return requestTemplate -> {
 
-            var auth =
-                SecurityContextHolder.getContext()
-                        .getAuthentication();
+            Authentication auth =
+                    SecurityContextHolder
+                            .getContext()
+                            .getAuthentication();
 
-            if (auth != null && auth.getCredentials() != null) {
+            System.out.println("AUTH = " + auth);
 
-                String token = auth.getCredentials().toString();
+            if (auth != null &&
+                auth.getCredentials() != null) {
+
+                String token =
+                        auth.getCredentials().toString();
+
+                System.out.println("TOKEN SENT = " + token);
 
                 requestTemplate.header(
                         "Authorization",

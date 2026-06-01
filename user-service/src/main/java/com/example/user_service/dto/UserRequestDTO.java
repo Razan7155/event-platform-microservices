@@ -1,38 +1,27 @@
-package com.example.user_service.model;
+package com.example.user_service.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-import jakarta.persistence.*;
-import  jakarta.validation.constraints.*;
+public class UserRequestDTO {
 
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @NotBlank
+    @NotBlank(message = "Name is required")
     private String name;
 
-    @Email
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
     private String email;
     
-
+    @NotBlank(message = "Password is required")
     private String password;
-    
+    @NotBlank(message = "Role is required")
     private String role;
-    
-    public User() {
+    public UserRequestDTO() {}
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public UserRequestDTO(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
     public String getName() {

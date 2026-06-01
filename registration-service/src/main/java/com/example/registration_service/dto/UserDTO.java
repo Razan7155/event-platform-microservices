@@ -1,31 +1,11 @@
-package com.example.user_service.model;
+package com.example.registration_service.dto;
 
+public class UserDTO {
 
-import jakarta.persistence.*;
-import  jakarta.validation.constraints.*;
-
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @NotBlank
     private String name;
-
-    @Email
     private String email;
-    
-
-    private String password;
-    
     private String role;
-    
-    public User() {
-
-    }
 
     public Long getId() {
         return id;
@@ -49,14 +29,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getRole() {

@@ -1,12 +1,9 @@
-C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\config\OpenAPIConfig.java
 C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\controller\RegistrationController.java
+C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\dto\RegistrationDTO.java
+C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\exception\ErrorResponse.java
+C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\exception\GlobalExceptionHandler.java
 C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\exception\ResourceNotFoundException.java
 C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\model\Registration.java
 C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\RegistrationServiceApplication.java
 C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\repository\RegistrationRepository.java
-C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\exception\ErrorResponse.java
-C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\exception\GlobalExceptionHandler.java
 C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\service\RegistrationService.java
-C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\client\UserClient.java
-C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\dto\RegistrationDTO.java
-C:\Users\faiz\event-platform-microservices\registration-service\src\main\java\com\example\registration_service\client\EventClient.java

@@ -2,11 +2,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-RegistrationServiceApplication<registration-service>",
+            "name": "Spring Boot-UserServiceApplication<user-service>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.example.registration_service.RegistrationServiceApplication",
-            "projectName": "registration-service",
+            "mainClass": "com.example.user_service.UserServiceApplication",
+            "projectName": "user-service",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
